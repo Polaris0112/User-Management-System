@@ -10,6 +10,23 @@ Github 开源项目地址： https://github.com/Polaris0112/User-Management-Syst
 
 效果图如下：
 
+### 外网用户信息查询
+
+![external_search.png](https://github.com/Polaris0112/User-Management-System/blob/master/demonstration/external_search.png)
+
+
+### 内网用户信息查询
+
+![internal_search.png](https://github.com/Polaris0112/User-Management-System/blob/master/demonstration/internal_search.png)
+
+
+### 搜索失败提示
+
+![search_fail.png](https://github.com/Polaris0112/User-Management-System/blob/master/demonstration/search_fail.png)
+
+
+
+
 
 
 ## 部署环境
@@ -29,10 +46,10 @@ Github 开源项目地址： https://github.com/Polaris0112/User-Management-Syst
 -  推荐：进入virtualenv，安装所需要的依赖包，`pip install -r requirement.txt`
 
 -  需要修改以下几个文件：
-  -  `db_update.py`：更改文件12-15行关于mysql数据库的配置，就是第一步创建的数据库和账号密码
-  -  `main.py`：更改文件6-9行关于mysql数据库的配置，就是第一步创建的数据库和账号密码
-  -  `update.sh`：更改文件第6行，把对应路径换成目前正在使用的virtualenv的绝对路径
-  -  `./roles/fetch_files/tasks/main.yml`：更改文件第10行，把`dest`后的绝对路径换成当前路径并指向到`user_data`
+  - `db_update.py`：更改文件12-15行关于mysql数据库的配置，就是第一步创建的数据库和账号密码
+  - `main.py`：更改文件6-9行关于mysql数据库的配置，就是第一步创建的数据库和账号密码
+  - `update.sh`：更改文件第6行，把对应路径换成目前正在使用的virtualenv的绝对路径
+  - `./roles/fetch_files/tasks/main.yml`：更改文件第10行，把`dest`后的绝对路径换成当前路径并指向到`user_data`
 
 -  **初始化数据库，执行`mysql -u [用户名] -p  [数据库名] < init_users.sql`**
 
