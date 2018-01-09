@@ -1,0 +1,7 @@
+---
+- hosts: "test"
+  become: yes
+  become_user: root
+  roles:
+    - fetch_files 
+#    - ping 

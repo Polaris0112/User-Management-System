@@ -1,0 +1,13 @@
+- name: Copy grap user script
+  copy: src="grap_user.sh" dest=/tmp/grap_user.sh mode=0755  owner=root group=root
+
+- name: Garp User data
+  shell: sh /tmp/grap_user.sh
+
+- name: Fetch user data from remote nodes 
+  fetch:
+    src: "/tmp/user_data.tar.gz"
+    dest: "/home/xxx/User-Management-System/user_data/"
+
+- name: Remove left script 
+  shell: rm -rf /tmp/grap_user.sh; rm -rf /tmp/user_data.tar.gz 

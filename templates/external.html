@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+ 
+    <title>用户信息查询</title>
+ 
+    <!-- Bootstrap core CSS -->
+    <link rel="shortcut icon" href="/static/images/bitbug_favicon.ico" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <script language="javascript"> 
+        function _key() { 
+            if(event.keyCode == 13) { 
+                document.getElementById("search").click(); 
+            } 
+        } 
+    </script> 
+  </head>
+ 
+  <body onkeydown="_key()">
+ 
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+ 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">用户信息查询</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">外网</a>
+          <a class="navbar-brand" href="/internal">内网</a>
+        </div>
+</nav>
+ 
+ 
+<script src="/static/js/template.js"></script>
+ 
+ 
+ 
+<div class="container" style="padding-top: 48px;">
+    <div class="bs-callout bs-callout-info mt0">
+        <div class="alert alert-success">
+            <p><h4>查询【外网】服务器的用户信息</h4></p>
+        </div>
+    </div>
+ 
+ 
+<div class="row" style="margin:0;min-height:600px">
+            <div class="jumbotron search-box">
+                <p>请输入关键字：</p>
+                <div class="input-group">
+                    <input placeholder="请输入关键字" type="text" name="id" id="keyword" class="form-control" autofocus="autofocus">
+                    <span class="input-group-btn scan-but-span">
+                        <button id="search" class="btn btn-success" onclick="scaninternal()" type="button">查找一下</button>
+                    </span>
+                </div>
+                <div class="input-group mt15"></div>
+                <div id="scan-result-box"></div>
+              </div>
+            <div id="container" class="row" style="hight:280px">
+        </div>
+    </div>
+ 
+
+    <script src="/static/js/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+function DisplayOR(num)
+{
+    var divD = document.getElementById("key"+num);
+    var btnD = document.getElementById("button"+num);
+    if(divD.style.display=="none")
+    {
+        divD.style.display = "";
+        btnD.value = "隐藏公钥";
+    }
+    else
+    {
+        divD.style.display = "none";
+        btnD.value = "显示公钥";
+    }
+}
+</script>
+
+
+   <script>
+    var keyword = "";
+            function scaninternal(){
+             keyword = $.trim($("#keyword").val());
+                 if(keyword==''){
+                    alert('请输入搜索内容');
+                    $("#keyword").focus()
+                    return false;
+                 }
+            $.ajax({
+                        type:'get',
+                        dataType:'json',
+                        url: "/scanexternal/" + keyword,
+                        success:function(data){
+                                if(!data["0"][0]){
+                                alert('没有发现该用户或服务器!');
+                                return false;
+                            }
+                $('#container tr:gt(0)').remove();
+                var re="<pre class=\"bg-success text-success\">查找关键字：" + keyword +"    共发现匹配数据："+ data["0"].length.toString() +"条</pre>"
+                    re+="<table class=\"table table-bordered\" style=\"table-layout:fixed;text-align:center\">"
+                    re+="<tr></tr>"
+                    re+='<tr><td> 主机名(外网IP) </td><td> 内网IP</td><td> 用户名</td><td> 用户组</td><td> 用户公钥</td></tr>';
+                    for (var i = 0; i < data["0"].length; i++)
+                        re += '<tr><td>' + data["0"][i].host_name + '</td><td>' + data["0"][i].host_ip + '</td><td>' + data["0"][i].user_name + '</td><td>' + data["0"][i].user_group + '</td><td><input type=button id=\"button'+i.toString()+'\" class=\"btn btn-default\" value="显示公钥" onclick=\"DisplayOR('+i.toString()+')\"/><div id=\"key'+i.toString()+'\" style=\"word-wrap:break-word;text-align:center;display:none\" >' + data["0"][i].user_key + '</div></td></tr>';
+                    //$('#container').html(re)
+                    re +='</table>'
+                    $('#container').html(re)
+                        },
+                        error:function(){
+                            alert('用户的信息不存在!')
+                        }
+                    })
+                }
+     </script>
+  </body>
+ </html>
